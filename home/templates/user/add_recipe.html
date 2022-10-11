@@ -1,0 +1,84 @@
+{% extends 'user/basic.html' %}
+{% load static %}
+{% block title %}
+Add New Recipe
+{% endblock %}
+{% block css %}
+{% endblock %}
+{% block body %}
+<div class="container">
+    <br>
+    <h5 class="text-center mb-5">Add New Recipe </h5>
+    <form method='POST' action="/add_recipe" enctype="multipart/form-data">
+        {%csrf_token%}
+        <div class="form-group">
+            <label for="name">Recipe Name</label>
+            <input type="text" class="form-control" id="name" aria-describedby="name" name='name'>
+        </div>
+        <div class="form-group">
+            <label for="recipe_image">Recipe Image</label>
+            <br>
+            <input type="file" name="recipe_image" id="recipe_image" value="" />
+        </div>
+        <div class="form-group">
+            <label for="sel1">Select Category:</label>
+            <select class="form-control" id="sel1" name="category">
+                <option value="1">Vegetarian</option>
+                <option value="2">Non-Vegetarian</option>
+            </select>
+        </div>
+
+        <div class="form-group">
+            <label for="desc">Description</label>
+            <textarea type="text" class="form-control" id="desc" aria-describedby="desc" name='desc'></textarea>
+        </div>
+        <div class="form-group">
+            <label for="ingredients">Recipe Ingredients</label>
+            <div class="row">
+                <div class="col-12 col-md-6">
+                    <input type="text" class="form-control" id="ingredients" name="ingredients"
+                        placeholder="Ingredient -1">
+                </div>
+                <div class="col-6 col-md-4">
+                    <input type="text" class="form-control" id="price" name="price" placeholder="Price">
+                </div>
+            </div>
+        </div>
+
+        <div id="ingredient_row">
+        </div>
+        <div class='' id="add_ingredient">
+            <div class="input-group-btn mt-3">
+                <button class="btn btn-success" type="button" onclick="ingredient_row();">
+                    <span>Add Ingredient</span> </button>
+            </div>
+        </div>
+        <div class="clear"></div>
+        <div class="clear"></div>
+        <br>
+        <div class="text-center">
+            <button class="btn btn-primary">Submit </button>
+        </div>
+
+    </form>
+    <br>
+    </section>
+
+    {% endblock %}
+    {% block script %}
+    <script>
+        var room_ingredient = 1;
+        function ingredient_row() {
+            room_ingredient++;
+            var objTo = document.getElementById('ingredient_row')
+            var divtest = document.createElement("div");
+            divtest.setAttribute("class", "form-group remove_ingredient" + room_ingredient);
+            var rdiv = 'remove_ingredient' + room_ingredient;
+            divtest.innerHTML = ' <div class="row"><div class="col-12 col-md-6"><input type="text" class="form-control" id="ingredients" name="ingredients" placeholder="Ingredient- ' + room_ingredient + '"></div><div class="col-6 col-md-4"><input type="text" class="form-control" id="price" name="price" placeholder="Price"></div><button class="btn-danger btm-sm" type="button" onclick="remove_ingredient_row(' + room_ingredient + ');"><span >Remove</span> </button></div>';
+            objTo.appendChild(divtest)
+        }
+        function remove_ingredient_row(rid) {
+            $('.remove_ingredient' + rid).remove();
+        }
+    </script>
+    {% endblock %}
