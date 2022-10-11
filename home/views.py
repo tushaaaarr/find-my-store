@@ -4,7 +4,9 @@ import json
 from django.contrib.auth import authenticate
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import logout as django_logout
+from django.contrib.auth.models import auth
 
+@login_required(login_url='login')
 def home(request):
     if request.GET.get('ordering'):
         ORD = request.GET.get('ordering')
